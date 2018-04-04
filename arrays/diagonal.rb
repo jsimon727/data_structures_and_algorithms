@@ -1,19 +1,25 @@
+require 'pry'
 class Matrix
   def initialize(array_of_arrays)
     @matrix = Array.new(array_of_arrays)
     @return_values = []
   end
 
+  def insert_values_above(num, array_index)
+    values = []
+    values << num unless num.nil?
+    counter = array_index - 1
+    num_index = 0
+    array_index.times do
+      number =  @matrix[counter][num_index + 1]
+      values << number unless number.nil?
+      counter = counter - 1
+      num_index = num_index + 1
+    end
+    @return_values << values
+  end
 
   def get_diagonal
-    first_num = @matrix[0][0]
-    return first_num if @matrix.length == 1
-
-    @return_values << first_num
-
-
-    previous_array = @matrix.first
-
     ## [
     ## [1,2,3],
     ## [4,5,6]
@@ -23,14 +29,22 @@ class Matrix
 
       array_index = @matrix.index(array)
 
-      next if array_index == 0
-      previous_array = @matrix[array_index - 1]
-
-      ##TODO need to account for [5,8,3] instead of current [5,8]
-      #if (array_index == @matrix.length - 1) &&
-      array.each do |num|
-        num_index = array.index(num)
-        @return_values << [num, previous_array[num_index + 1]]
+      if array_index == @matrix.length - 1
+        array.each_with_index do |num, index|
+          values = []
+          values << num
+          counter = array_index - 1
+          num_index = 0
+          array_index.times do
+            number = @matrix[counter][num_index + index + 1]
+            values << number unless number.nil?
+            counter = counter - 1
+            num_index = num_index + 1
+          end
+          @return_values << values
+        end
+      else
+        insert_values_above(array.first, array_index)
       end
     end
 
@@ -40,10 +54,15 @@ end
 
 matrix = Matrix.new(
   [
-    [1,2,3,4],
-    [7,8,9,4],
-    [5,6,8,4],
+    [1,5],
+    [7,7],
+    [5,8],
   ]
 )
-puts matrix.get_diagonal
-
+#matrix = Matrix.new(
+  #[
+    #[],
+    #[],
+  #]
+#)
+puts matrix.get_diagonal.inspect

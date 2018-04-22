@@ -1,4 +1,3 @@
-require 'pry'
 class Node
   def initialize(value, left = nil, right = nil)
     @value = value
@@ -14,29 +13,17 @@ class Node
     end
   end
 
-    end
-  end
-
-  def is_binary?(check_values = [], node = self)
-    unless node.value.nil?
-      check_values << node.value
-      return false if check_values.any? { |v| v < node.left.value }
-      return false if check_values.any? { |v| v > node.right.value }
-
-      if !node.left.nil?
-        if node.left > node.value
-          return false
-        else
-          is_binary?(check_values, node.left)
-        end
-      end
-
-      if !node.right.nil?
-        if node.right < node.value
-          return false
-        else
-          is_binary?(check_values, node.right)
-        end
+  require 'pry'
+  def is_binary?(node = self)
+    if node.left.nil? && node.right.nil?
+      return true
+    else
+      return true if node.left.nil? && is_binary?(node.right)
+      return true if node.right.nil? && is_binary?(node.left)
+      if node.left.value > node.value || node.right.value < node.value
+        return false
+      else
+        return is_binary?(node.left) && is_binary?(node.right)
       end
     end
   end
@@ -66,9 +53,38 @@ tree = Node.new(4)
 tree.insert(6)
 tree.insert(2)
 tree.insert(5)
+tree.insert(8)
+tree.insert(10)
+tree.insert(1)
+tree.insert(2)
+tree.insert(29)
+tree.insert(9)
+tree.insert(0)
+tree.insert(38)
 
 #Node.print(tree)
-Node.print(nil)
+#Node.print(nil)
 
-tree.is_binary?
+#node7 = Node.new(19)
+#node6 = Node.new(21)
+#node5 = Node.new(15, node6, node7)
+#node4 = Node.new(10)
+#node2 = Node.new(1, node4, node5)
+#node3 = Node.new(9)
+#tree = Node.new(2, node2, node3)
+
+#node7 = Node.new(13)
+#node6 = Node.new(14)
+#node5 = Node.new(15, node6, node7)
+#node4 = Node.new(10)
+#node3 = Node.new(31)
+#node2 = Node.new(11, node4, node5)
+#tree = Node.new(22, node2, node3)
+
+puts tree.is_binary?
+
+#tree.insert(6)
+#tree.insert(2)
+#tree.insert(5)
+
 

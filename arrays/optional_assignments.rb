@@ -28,3 +28,6 @@ puts permutation?("acscc", "ccacc")
 puts permutation?("acscc", "ccacccc")
 puts permutation?("", "")
 
+def max_profit(stocks)
+end
+

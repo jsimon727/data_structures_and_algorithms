@@ -29,5 +29,24 @@ puts permutation?("acscc", "ccacccc")
 puts permutation?("", "")
 
 def max_profit(stocks)
+  low_price = stocks.first
+  high_price = stocks.first
+
+  stocks.each_with_index do |price1, i1|
+    stocks[1..-1].each_with_index do |price2, i2|
+      if price1 < price2 && price1 < low_price
+        low_price = price1
+      end
+
+      if price1 > price2 && price1 > high_price
+        high_price = price1
+      end
+    end
+  end
+
+  high_price - low_price
 end
+
+puts max_profit([2.1, 4.1, 5.6, 8.0, 3.1])
+puts max_profit([4.1, 2.1, 5.6, 8.0, 3.1, 1.0, 0.0])
 
